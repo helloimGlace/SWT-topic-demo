@@ -64,7 +64,7 @@ export default function App() {
         <div className="pres-header-row">
           <span className="pres-logo">AI-Assisted Testing with GitHub Copilot</span>
           <button className="theme-btn" onClick={() => setLight((v) => !v)} title="Toggle theme">
-            {light ? '🌙' : '☀️'}
+            {light ? 'Dark' : 'Light'}
           </button>
         </div>
         <div className="progress-bar">

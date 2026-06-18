@@ -19,7 +19,7 @@ export default function DateChecker() {
   return (
     <div className="date-checker">
       <div className="dc-header">
-        <span className="dc-icon">📅</span>
+        <span className="dc-icon">&gt;</span>
         <span>Date Validator</span>
       </div>
       <div className="dc-body">

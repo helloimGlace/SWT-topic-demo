@@ -5,17 +5,17 @@ export function Slide9() {
   const cards = [
     {
       id: 'speed',
-      title: '⚡ Speed',
+      title: 'Speed',
       detail: 'AI handles the boilerplate setup (mocks, imports, scaffolding). You focus on core logic and test intent.',
     },
     {
       id: 'coverage',
-      title: '🛡️ Coverage',
+      title: 'Coverage',
       detail: 'Copilot easily suggests edge cases (like null, undefined, or wrong types) that you might forget to test in JavaScript.',
     },
     {
       id: 'quality',
-      title: '🎯 Quality',
+      title: 'Quality',
       detail: 'Better prompts and descriptive JSDoc comments = Better test suites. The quality of your input directly shapes Copilot\'s output.',
     },
   ]
@@ -40,8 +40,7 @@ export function Slide9() {
           >
             <div className="flip-inner">
               <div className="flip-front">
-                <span className="flip-icon">{card.title.split(' ')[0]}</span>
-                <span>{card.title.split(' ').slice(1).join(' ')}</span>
+                <span>{card.title}</span>
               </div>
               <div className="flip-back">
                 <p>{card.detail}</p>
