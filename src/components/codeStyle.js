@@ -1,6 +1,6 @@
 export const codeStyle = {
-  background: '#1e1e2e',
-  color: '#cdd6f4',
+  background: '#434c5e',
+  color: '#d8dee9',
   padding: '16px',
   borderRadius: '8px',
   fontFamily: 'ui-monospace, Consolas, monospace',
