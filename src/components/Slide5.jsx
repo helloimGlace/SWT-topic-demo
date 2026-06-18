@@ -3,10 +3,12 @@ import DateChecker from './DateChecker'
 
 export function Slide5() {
   const [checked, setChecked] = useState([])
+  const [submitted, setSubmitted] = useState(false)
   const edgeCases = [
-    { id: 'leap', label: '2026-02-29 (Non-leap year — Feb has 28 days)' },
-    { id: 'format', label: '31/12/2025 (Format confusion: DD/MM vs MM/DD)' },
-    { id: 'nullish', label: 'undefined or null values passed into the input' },
+    { id: 'leap', label: '2026-02-29 (Non-leap year — Feb has 28 days)', correct: true },
+    { id: 'format', label: '31/12/2025 (Format confusion: DD/MM vs MM/DD)', correct: true },
+    { id: 'nullish', label: 'undefined or null values passed into the input', correct: true },
+    { id: 'always', label: 'Always valid date (it\'s just a string!)', correct: false },
   ]
 
   const toggle = (id) => {
@@ -14,6 +16,12 @@ export function Slide5() {
       prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
     )
   }
+
+  const allCorrectSelected = edgeCases
+    .filter(ec => ec.correct)
+    .every(ec => checked.includes(ec.id))
+
+  const anyWrongSelected = checked.some(id => !edgeCases.find(ec => ec.id === id).correct)
 
   return (
     <div className="slide-content">
@@ -31,16 +39,35 @@ export function Slide5() {
               type="checkbox"
               checked={checked.includes(ec.id)}
               onChange={() => toggle(ec.id)}
+              disabled={submitted}
             />
             <span>{ec.label}</span>
           </label>
         ))}
       </div>
-      <div className="alert insight-box" role="alert">
-        All three are real edge cases! <code>new Date("2026-02-29")</code> silently wraps to March 1st.
-        <code>new Date("31/12/2025")</code> returns <code>Invalid Date</code> (ISO format expected).
-        And <code>new Date(null)</code> actually returns a valid epoch date! JavaScript never stops surprising.
-      </div>
+      {!submitted ? (
+        <button className="btn primary-btn" onClick={() => setSubmitted(true)}>
+          Submit Answers
+        </button>
+      ) : (
+        <div className={`alert ${anyWrongSelected ? 'wrong-feedback' : !allCorrectSelected ? 'partial-feedback' : 'correct-feedback'}`} role="alert">
+          {anyWrongSelected ? (
+            <>
+              <strong>Oops!</strong> You selected an invalid option. Strings are not automatically valid dates.
+            </>
+          ) : !allCorrectSelected ? (
+            <>
+              <strong>Almost there!</strong> You missed some real edge cases. JavaScript is tricky!
+            </>
+          ) : (
+            <>
+              <strong>Spot on!</strong> All three are real edge cases! <code>new Date("2026-02-29")</code> silently wraps to March 1st.
+              <code>new Date("31/12/2025")</code> returns <code>Invalid Date</code> (ISO format expected).
+              And <code>new Date(null)</code> actually returns a valid epoch date!
+            </>
+          )}
+        </div>
+      )}
     </div>
   )
 }

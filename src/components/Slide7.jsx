@@ -14,6 +14,8 @@ export function Slide7() {
   expect(screen.getByText('Invalid Date')).toBeInTheDocument()
 })`,
       good: true,
+      explain:
+        'This test correctly uses fireEvent.change to check Feb 29 on a non-leap year (2026). The date is invalid, so it properly expects "Invalid Date".',
     },
     {
       id: 't2',
@@ -24,6 +26,8 @@ export function Slide7() {
   expect(screen.getByText('Invalid Date')).toBeInTheDocument()
 })`,
       good: false,
+      explain:
+        'Passing null as the value coerces to the string "null", not an actual null input. The test likely passes but doesn\'t test what it claims to.',
     },
     {
       id: 't3',
@@ -34,6 +38,8 @@ export function Slide7() {
   expect(screen.getByText('Valid Date')).toBeInTheDocument()
 })`,
       good: true,
+      explain:
+        'This test validates a correct ISO date (2026-06-15) and expects "Valid Date", which is accurate. The test is well-structured and meaningful.',
     },
   ]
 
@@ -47,15 +53,25 @@ export function Slide7() {
     }
   }
 
+  const isCorrect = (tc, status) =>
+    status === 'accepted' ? tc.good : !tc.good
+
   return (
     <div className="slide-content">
       <div className="slide-label">Slide 8 of 12</div>
       <h2>Live Simulation — Generating the Tests</h2>
       <p className="slide-subtitle">
-        Copilot generates test cases for the DateChecker component. Click <strong>Accept</strong> on good cases and <strong>Modify</strong> on imperfect ones.
+        Copilot generates test cases for the DateChecker component. Click{' '}
+        <strong>Accept</strong> on good cases and <strong>Modify</strong> on
+        imperfect ones.
       </p>
       {testCases.map((tc) => {
-        const status = accepted.includes(tc.id) ? 'accepted' : modified.includes(tc.id) ? 'modified' : null
+        const status = accepted.includes(tc.id)
+          ? 'accepted'
+          : modified.includes(tc.id)
+            ? 'modified'
+            : null
+        const correct = status ? isCorrect(tc, status) : null
         return (
           <div key={tc.id} className={`test-card ${status || ''}`}>
             <div style={codeStyle}>{tc.code}</div>
@@ -78,9 +94,15 @@ export function Slide7() {
                 </span>
               )}
             </div>
-            {status === 'modified' && (
-              <div className="modify-reason">
-                <strong>Why modify?</strong> {tc.good ? 'fireEvent with null value type-coerces to "null" string.' : 'fireEvent.change expects a string value, not null.'}
+            {status && (
+              <div className={`choice-feedback ${correct ? 'correct' : 'incorrect'}`}>
+                {correct
+                  ? `✓ Correct choice — ${tc.explain}`
+                  : `✗ Not the best choice. ${
+                      tc.good
+                        ? 'This test is well-written and should be accepted.'
+                        : 'This test has issues and should be modified.'
+                    }`}
               </div>
             )}
           </div>
