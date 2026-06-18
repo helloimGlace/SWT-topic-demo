@@ -135,6 +135,39 @@
   justify-content: center;
   padding: 32px 24px;
   overflow-y: auto;
+  animation: slideFadeIn 0.35s ease-out;
+}
+
+@keyframes slideFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pres-slide .alert,
+.pres-slide .btn.reset-btn,
+.pres-slide .choice-feedback,
+.pres-slide .status-tag,
+.pres-slide .card-detail,
+.pres-slide .dc-hint,
+.pres-slide .badge.dc-badge {
+  animation: fadeSlideIn 0.3s ease-out;
 }
 
 .slide-content {
@@ -575,6 +608,7 @@
 
 .custom-accordion .accordion-collapse {
   border-top: 1px solid var(--border);
+  transition: height 0.3s ease-out;
 }
 
 .custom-accordion .accordion-body {

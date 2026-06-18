@@ -72,7 +72,7 @@ export default function App() {
         </div>
       </header>
 
-      <main className="pres-slide">
+      <main className="pres-slide" key={slide}>
         {renderSlide()}
       </main>
 
