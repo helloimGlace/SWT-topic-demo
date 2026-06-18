@@ -20,6 +20,11 @@ export function Slide1({ onComplete }) {
     if (onComplete && selected !== 'perfect') onComplete()
   }
 
+  const handleReset = () => {
+    setSelected(null)
+    setShowResult(false)
+  }
+
   return (
     <div className="slide-content">
       <div className="slide-label">Slide 2 of 12</div>
@@ -64,6 +69,7 @@ export function Slide1({ onComplete }) {
           testing is so valuable.
         </div>
       )}
+        {showResult && <button className="btn reset-btn" onClick={handleReset}>Reset</button>}
     </div>
   )
 }

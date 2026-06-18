@@ -19,6 +19,11 @@ export function Slide8({ onComplete }) {
     if (onComplete && selected === 'compile') onComplete()
   }
 
+  const handleReset = () => {
+    setSelected(null)
+    setShowResult(false)
+  }
+
   return (
     <div className="slide-content">
       <div className="slide-label">Slide 9 of 12</div>
@@ -65,6 +70,7 @@ export function Slide8({ onComplete }) {
           human review.
         </div>
       )}
+      {showResult && <button className="btn reset-btn" onClick={handleReset}>Reset</button>}
     </div>
   )
 }

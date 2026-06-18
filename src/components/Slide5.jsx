@@ -4,6 +4,11 @@ import DateChecker from './DateChecker'
 export function Slide5() {
   const [checked, setChecked] = useState([])
   const [submitted, setSubmitted] = useState(false)
+
+  const handleReset = () => {
+    setChecked([])
+    setSubmitted(false)
+  }
   const edgeCases = [
     { id: 'leap', label: '2026-02-29 (Non-leap year — Feb has 28 days)', correct: true },
     { id: 'format', label: '31/12/2025 (Format confusion: DD/MM vs MM/DD)', correct: true },
@@ -68,6 +73,7 @@ export function Slide5() {
           )}
         </div>
       )}
+      {submitted && <button className="btn reset-btn" onClick={handleReset}>Reset</button>}
     </div>
   )
 }

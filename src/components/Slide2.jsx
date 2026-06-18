@@ -4,6 +4,11 @@ export function Slide2() {
   const [componentTime, setComponentTime] = useState(50)
   const [submitted, setSubmitted] = useState(false)
 
+  const handleReset = () => {
+    setComponentTime(50)
+    setSubmitted(false)
+  }
+
   return (
     <div className="slide-content">
       <div className="slide-label">Slide 3 of 12</div>
@@ -71,6 +76,7 @@ export function Slide2() {
           </div>
         </div>
       )}
+      {submitted && <button className="btn reset-btn" onClick={handleReset}>Reset</button>}
     </div>
   )
 }

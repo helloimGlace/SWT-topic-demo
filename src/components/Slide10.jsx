@@ -15,6 +15,11 @@ export function Slide10({ onComplete }) {
     if (onComplete && selected === 'b') onComplete()
   }
 
+  const handleReset = () => {
+    setSelected(null)
+    setSubmitted(false)
+  }
+
   return (
     <div className="slide-content">
       <div className="slide-label">Slide 11 of 12</div>
@@ -51,6 +56,7 @@ export function Slide10({ onComplete }) {
           less influential than open files, and extensions don't affect inline suggestions.
         </div>
       )}
+      {submitted && <button className="btn reset-btn" onClick={handleReset}>Reset</button>}
     </div>
   )
 }

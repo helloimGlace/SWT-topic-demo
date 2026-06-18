@@ -23,6 +23,11 @@ export function Slide6({ onComplete }) {
     if (onComplete && selected === 'descriptive') onComplete()
   }
 
+  const handleReset = () => {
+    setSelected(null)
+    setShowResult(false)
+  }
+
   return (
     <div className="slide-content">
       <div className="slide-label">Slide 7 of 12</div>
@@ -64,6 +69,7 @@ ${
           {options.find((o) => o.id === selected).result}
         </div>
       )}
+      {showResult && <button className="btn reset-btn" onClick={handleReset}>Reset</button>}
     </div>
   )
 }

@@ -56,6 +56,13 @@ export function Slide7() {
   const isCorrect = (tc, status) =>
     status === 'accepted' ? tc.good : !tc.good
 
+  const hasSelection = accepted.length > 0 || modified.length > 0
+
+  const handleReset = () => {
+    setAccepted([])
+    setModified([])
+  }
+
   return (
     <div className="slide-content">
       <div className="slide-label">Slide 8 of 12</div>
@@ -108,6 +115,7 @@ export function Slide7() {
           </div>
         )
       })}
+      {hasSelection && <button className="btn reset-btn" onClick={handleReset}>Reset All</button>}
     </div>
   )
 }
