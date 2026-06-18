@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { StartSlide } from './components/StartSlide'
 import { Slide1 } from './components/Slide1'
 import { Slide2 } from './components/Slide2'
@@ -18,6 +18,11 @@ const TOTAL_SLIDES = 12
 export default function App() {
   const [slide, setSlide] = useState(1)
   const [completed, setCompleted] = useState(new Set())
+  const [light, setLight] = useState(true)
+
+  useEffect(() => {
+    document.body.style.background = light ? '#eceff4' : '#2e3440'
+  }, [light])
 
   const next = () => {
     if (slide < TOTAL_SLIDES) setSlide((s) => s + 1)
@@ -54,10 +59,13 @@ export default function App() {
   }
 
   return (
-    <div className="presentation">
+    <div className={`presentation${light ? ' light' : ''}`}>
       <header className="pres-header">
-        <div className="pres-title">
+        <div className="pres-header-row">
           <span className="pres-logo">AI-Assisted Testing with GitHub Copilot</span>
+          <button className="theme-btn" onClick={() => setLight((v) => !v)} title="Toggle theme">
+            {light ? '🌙' : '☀️'}
+          </button>
         </div>
         <div className="progress-bar">
           <div className="progress-fill" style={{ width: `${progress}%` }} />
