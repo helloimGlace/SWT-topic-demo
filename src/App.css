@@ -348,6 +348,19 @@
   color: var(--accent);
 }
 
+.result-feedback.wrong-feedback {
+  background: rgba(var(--red-r), var(--red-g), var(--red-b), 0.1);
+  border-color: rgba(var(--red-r), var(--red-g), var(--red-b), 0.3);
+}
+
+.result-feedback.wrong-feedback strong {
+  color: var(--red);
+}
+
+.result-feedback.wrong-feedback code {
+  color: var(--red);
+}
+
 .insight-box {
   margin-top: 20px;
   padding: 14px 18px;

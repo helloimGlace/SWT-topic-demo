@@ -50,10 +50,17 @@ export function Slide1({ onComplete }) {
         <button className="primary-btn" onClick={handleSubmit} disabled={!selected}>
           Submit Answer
         </button>
+      ) : selected === 'perfect' ? (
+        <div className="result-feedback wrong-feedback">
+          <strong>Not quite — JavaScript is far from perfect.</strong> While the function looks clean, <code>new Date()</code>
+          silently accepts ambiguous strings like <code>"null"</code> (returns epoch), silently wraps invalid leap year
+          dates like <code>"2026-02-29"</code> to March 1st, and fails on non-ISO formats like <code>"31/12/2025"</code>.
+          JavaScript's flexibility is exactly why we need AI-assisted testing to catch these edge cases.
+        </div>
       ) : (
         <div className="result-feedback">
-          <strong>Correct!</strong> JavaScript's <code>new Date()</code> silently wraps invalid dates, accepting "null", 
-          leap year mistakes, and format confusion. This flexibility hides bugs — and that's exactly why AI-assisted 
+          <strong>Correct!</strong> JavaScript's <code>new Date()</code> silently wraps invalid dates, accepting "null",
+          leap year mistakes, and format confusion. This flexibility hides bugs — and that's exactly why AI-assisted
           testing is so valuable.
         </div>
       )}
