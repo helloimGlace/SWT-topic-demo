@@ -1,14 +1,23 @@
 import { useState } from 'react'
 import { codeStyle } from './codeStyle'
 
-export function Slide8() {
+export function Slide8({ onComplete }) {
   const [selected, setSelected] = useState(null)
-  const [showAnswer, setShowAnswer] = useState(false)
+  const [showResult, setShowResult] = useState(false)
   const options = [
-    { id: 'compile', label: 'JavaScript doesn\'t catch missing methods at compile time' },
+    { id: 'compile', label: 'JavaScript doesn\'t catch missing methods at compile time', correct: true },
     { id: 'syntax', label: 'The test has a syntax error' },
     { id: 'lib', label: 'The testing library is not installed' },
   ]
+
+  const handleSelect = (id) => {
+    setSelected(id)
+  }
+
+  const handleSubmit = () => {
+    setShowResult(true)
+    if (onComplete && selected === 'compile') onComplete()
+  }
 
   return (
     <div className="slide-content">
@@ -25,29 +34,35 @@ export function Slide8() {
   expect(input).toBeValidDate()          // ← This method does NOT exist!
 })`}
       </div>
-      {!showAnswer ? (
-        <>
-          <p className="slide-subtitle">Why did this test crash your test runner?</p>
-          <div className="options-grid compact">
-            {options.map((opt) => (
-              <button
-                key={opt.id}
-                className={`btn option-btn ${selected === opt.id ? 'selected' : ''}`}
-                onClick={() => setSelected(opt.id)}
-              >
-                {opt.label}
-              </button>
-            ))}
-          </div>
-          <button className="btn primary-btn" onClick={() => setShowAnswer(true)} disabled={!selected}>
-            Reveal Answer
+      <p className="slide-subtitle">Why did this test crash your test runner?</p>
+      <div className="options-grid">
+        {options.map((opt) => (
+          <button
+            key={opt.id}
+            className={`btn option-btn ${selected === opt.id ? 'selected' : ''} ${showResult && selected === opt.id ? (opt.correct ? 'correct' : 'wrong') : ''}`}
+            onClick={() => handleSelect(opt.id)}
+            disabled={showResult}
+          >
+            {opt.label}
           </button>
-        </>
-      ) : (
+        ))}
+      </div>
+      {!showResult ? (
+        <button className="btn primary-btn" onClick={handleSubmit} disabled={!selected}>
+          Submit Answer
+        </button>
+      ) : selected === 'compile' ? (
         <div className="alert" role="alert">
-          <strong>Exactly.</strong> Because JavaScript doesn't catch missing methods at compile time,
+          <strong>Correct!</strong> Because JavaScript doesn't catch missing methods at compile time,
           a hallucinated API like <code>toBeValidDate()</code> only fails at runtime — making execution
           and human code review strictly required to catch AI hallucinations.
+        </div>
+      ) : (
+        <div className="alert wrong-feedback" role="alert">
+          <strong>Not quite.</strong> The test runs without syntax errors and the testing library is installed.
+          The real issue is that JavaScript's <code>toBeValidDate()</code> doesn't exist anywhere — but JavaScript
+          won't tell you until runtime. This is exactly the kind of AI hallucination that slips through without
+          human review.
         </div>
       )}
     </div>
