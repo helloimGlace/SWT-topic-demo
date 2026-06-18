@@ -27,7 +27,7 @@ export function Slide3() {
 
   return (
     <div className="slide-content">
-      <div className="slide-label">Slide 3 of 10</div>
+      <div className="slide-label">Slide 4 of 12</div>
       <h2>How the Flow Works</h2>
       <p className="slide-subtitle">Click each step to see what happens under the hood.</p>
       <div className="process-map">

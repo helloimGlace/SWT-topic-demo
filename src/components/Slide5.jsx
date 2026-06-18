@@ -17,7 +17,7 @@ export function Slide5() {
 
   return (
     <div className="slide-content">
-      <div className="slide-label">Slide 5 of 10</div>
+      <div className="slide-label">Slide 6 of 12</div>
       <h2>Deep Dive — The Example Project</h2>
       <p className="slide-subtitle">
         We have a React component (<code>DateChecker.jsx</code>) with an input that validates date-time strings.

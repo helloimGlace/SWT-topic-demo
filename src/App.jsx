@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { StartSlide } from './components/StartSlide'
 import { Slide1 } from './components/Slide1'
 import { Slide2 } from './components/Slide2'
 import { Slide3 } from './components/Slide3'
@@ -9,9 +10,10 @@ import { Slide7 } from './components/Slide7'
 import { Slide8 } from './components/Slide8'
 import { Slide9 } from './components/Slide9'
 import { Slide10 } from './components/Slide10'
+import { EndSlide } from './components/EndSlide'
 import './App.css'
 
-const TOTAL_SLIDES = 10
+const TOTAL_SLIDES = 12
 
 export default function App() {
   const [slide, setSlide] = useState(1)
@@ -35,16 +37,18 @@ export default function App() {
 
   const renderSlide = () => {
     switch (slide) {
-      case 1: return <Slide1 onComplete={markComplete} />
-      case 2: return <Slide2 />
-      case 3: return <Slide3 />
-      case 4: return <Slide4 />
-      case 5: return <Slide5 />
-      case 6: return <Slide6 onComplete={markComplete} />
-      case 7: return <Slide7 />
-      case 8: return <Slide8 />
-      case 9: return <Slide9 />
-      case 10: return <Slide10 />
+      case 1: return <StartSlide />
+      case 2: return <Slide1 onComplete={markComplete} />
+      case 3: return <Slide2 />
+      case 4: return <Slide3 />
+      case 5: return <Slide4 />
+      case 6: return <Slide5 />
+      case 7: return <Slide6 onComplete={markComplete} />
+      case 8: return <Slide7 />
+      case 9: return <Slide8 />
+      case 10: return <Slide9 />
+      case 11: return <Slide10 />
+      case 12: return <EndSlide />
       default: return null
     }
   }

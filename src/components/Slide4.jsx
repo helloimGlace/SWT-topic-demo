@@ -27,7 +27,7 @@ export function Slide4() {
 
   return (
     <div className="slide-content">
-      <div className="slide-label">Slide 4 of 10</div>
+      <div className="slide-label">Slide 5 of 12</div>
       <h2>The Toolkit</h2>
       <p className="slide-subtitle">Click a card to see its role in the AI-testing ecosystem.</p>
       <div className="cards-grid">

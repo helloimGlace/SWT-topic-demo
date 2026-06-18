@@ -6,7 +6,7 @@ export function Slide2() {
 
   return (
     <div className="slide-content">
-      <div className="slide-label">Slide 2 of 10</div>
+      <div className="slide-label">Slide 3 of 12</div>
       <h2>The Testing Bottleneck</h2>
       <p className="slide-subtitle">
         Adjust the sliders: How much time do you actually spend writing React components vs. writing tests & guessing edge cases?

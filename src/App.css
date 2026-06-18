@@ -750,3 +750,153 @@
     font-size: 24px;
   }
 }
+
+.start-slide,
+.end-slide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.start-hero,
+.end-hero {
+  margin-bottom: 8px;
+}
+
+.start-icon,
+.end-icon {
+  font-size: 64px;
+  display: block;
+}
+
+.start-title {
+  font-size: 40px !important;
+  line-height: 1.15 !important;
+  margin-bottom: 16px !important;
+}
+
+.start-sub {
+  font-size: 18px !important;
+  color: #9ca3af !important;
+  line-height: 1.6 !important;
+  margin-bottom: 24px !important;
+}
+
+.start-details {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.start-detail-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: rgba(192, 132, 252, 0.08);
+  border: 1px solid rgba(192, 132, 252, 0.2);
+  border-radius: 20px;
+  font-size: 14px;
+  color: #c0c0d0;
+}
+
+.start-detail-icon {
+  font-size: 16px;
+}
+
+.start-prompt {
+  font-size: 15px;
+  color: #6b7280;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.end-title {
+  font-size: 40px !important;
+  margin-bottom: 12px !important;
+}
+
+.end-sub {
+  font-size: 18px !important;
+  color: #9ca3af !important;
+  margin-bottom: 28px !important;
+  line-height: 1.6 !important;
+}
+
+.end-recap {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+  max-width: 600px;
+  width: 100%;
+}
+
+.end-card {
+  padding: 20px 16px;
+  background: linear-gradient(135deg, #1a1a25, #22222f);
+  border: 1px solid #2a2a35;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.end-card-icon {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.end-card strong {
+  display: block;
+  font-size: 16px;
+  color: #f3f4f6;
+  margin-bottom: 6px;
+}
+
+.end-card p {
+  font-size: 13px;
+  color: #9ca3af;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.end-cta {
+  padding: 14px 24px;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  border-radius: 10px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.end-cta p {
+  font-size: 14px;
+  color: #b0b0c0;
+  line-height: 1.5;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .start-title,
+  .end-title {
+    font-size: 28px !important;
+  }
+
+  .start-details {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .end-recap {
+    grid-template-columns: 1fr;
+  }
+}

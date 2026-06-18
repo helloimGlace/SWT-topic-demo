@@ -25,7 +25,7 @@ export function Slide6({ onComplete }) {
 
   return (
     <div className="slide-content">
-      <div className="slide-label">Slide 6 of 10</div>
+      <div className="slide-label">Slide 7 of 12</div>
       <h2>Interactive Coding — Prompting Copilot</h2>
       <p className="slide-subtitle">
         How should we ask Copilot to generate our JavaScript tests?<br />

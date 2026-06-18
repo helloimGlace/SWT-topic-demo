@@ -28,7 +28,7 @@ export function Slide9() {
 
   return (
     <div className="slide-content">
-      <div className="slide-label">Slide 9 of 10</div>
+      <div className="slide-label">Slide 10 of 12</div>
       <h2>Summary & Key Takeaways</h2>
       <p className="slide-subtitle">Click each card to flip and reveal the takeaway.</p>
       <div className="flip-cards">

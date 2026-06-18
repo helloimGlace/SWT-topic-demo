@@ -16,7 +16,7 @@ export function Slide10() {
 
   return (
     <div className="slide-content">
-      <div className="slide-label">Slide 10 of 10</div>
+      <div className="slide-label">Slide 11 of 12</div>
       <h2>Final Quiz — Check Your Understanding</h2>
       <p className="slide-subtitle">
         What gives GitHub Copilot the best context to write an accurate unit test for your React JavaScript component?

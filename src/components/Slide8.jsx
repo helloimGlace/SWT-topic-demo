@@ -12,7 +12,7 @@ export function Slide8() {
 
   return (
     <div className="slide-content">
-      <div className="slide-label">Slide 8 of 10</div>
+      <div className="slide-label">Slide 9 of 12</div>
       <h2>When AI Fails — The Human-in-the-Loop</h2>
       <p className="slide-subtitle">
         Copilot generated this test. Can you spot the hallucination?

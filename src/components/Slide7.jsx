@@ -49,7 +49,7 @@ export function Slide7() {
 
   return (
     <div className="slide-content">
-      <div className="slide-label">Slide 7 of 10</div>
+      <div className="slide-label">Slide 8 of 12</div>
       <h2>Live Simulation — Generating the Tests</h2>
       <p className="slide-subtitle">
         Copilot generates test cases for the DateChecker component. Click <strong>Accept</strong> on good cases and <strong>Modify</strong> on imperfect ones.

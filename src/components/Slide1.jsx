@@ -22,7 +22,7 @@ export function Slide1({ onComplete }) {
 
   return (
     <div className="slide-content">
-      <div className="slide-label">Slide 1 of 10</div>
+      <div className="slide-label">Slide 2 of 12</div>
       <h2>The Hook — Can You Spot the Bug?</h2>
       <p className="slide-subtitle">
         Look at this JavaScript function. Without explicit type safety, where does it completely break?
