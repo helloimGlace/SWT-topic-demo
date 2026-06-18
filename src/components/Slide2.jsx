@@ -17,6 +17,7 @@ export function Slide2() {
           <div className="slider-row">
             <input
               type="range"
+              className="form-range"
               min="0"
               max="100"
               value={componentTime}
@@ -31,6 +32,7 @@ export function Slide2() {
           <div className="slider-row">
             <input
               type="range"
+              className="form-range"
               min="0"
               max="100"
               value={100 - componentTime}
@@ -42,11 +44,11 @@ export function Slide2() {
         </div>
       </div>
       {!submitted ? (
-        <button className="primary-btn" onClick={() => setSubmitted(true)}>
+        <button className="btn primary-btn" onClick={() => setSubmitted(true)}>
           See How You Compare
         </button>
       ) : (
-        <div className="insight-box">
+        <div className="alert insight-box" role="alert">
           <strong>The Reality:</strong> In JavaScript, lack of strict types means you write more runtime validation tests.
           AI tools like Copilot can slash the boilerplate, letting you focus on <em>what matters</em>.
           <div className="averages">

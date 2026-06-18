@@ -25,7 +25,7 @@ export function Slide10() {
         {options.map((opt) => (
           <button
             key={opt.id}
-            className={`option-btn ${selected === opt.id ? 'selected' : ''} ${submitted ? (opt.correct ? 'correct' : selected === opt.id ? 'wrong' : '') : ''}`}
+            className={`btn option-btn ${selected === opt.id ? 'selected' : ''} ${submitted ? (opt.correct ? 'correct' : selected === opt.id ? 'wrong' : '') : ''}`}
             onClick={() => !submitted && setSelected(opt.id)}
             disabled={submitted}
           >
@@ -34,11 +34,11 @@ export function Slide10() {
         ))}
       </div>
       {!submitted ? (
-        <button className="primary-btn" onClick={handleSubmit} disabled={!selected}>
+        <button className="btn primary-btn" onClick={handleSubmit} disabled={!selected}>
           Submit Answer
         </button>
       ) : (
-        <div className="result-feedback">
+        <div className="alert" role="alert">
           <strong>Correct!</strong> Copilot's suggestions are heavily influenced by the code in your active editor tabs
           and the surrounding comments. A descriptive test comment paired with the open component file gives it the
           best signal.

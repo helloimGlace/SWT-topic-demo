@@ -63,12 +63,12 @@ export default function App() {
       <header className="pres-header">
         <div className="pres-header-row">
           <span className="pres-logo">AI-Assisted Testing with GitHub Copilot</span>
-          <button className="theme-btn" onClick={() => setLight((v) => !v)} title="Toggle theme">
+          <button className="btn btn-sm theme-btn" onClick={() => setLight((v) => !v)} title="Toggle theme">
             {light ? 'Dark' : 'Light'}
           </button>
         </div>
-        <div className="progress-bar">
-          <div className="progress-fill" style={{ width: `${progress}%` }} />
+        <div className="progress" style={{ height: '3px' }}>
+          <div className="progress-bar" style={{ width: `${progress}%`, background: 'linear-gradient(90deg, var(--accent), var(--accent2))' }} />
         </div>
       </header>
 
@@ -77,7 +77,7 @@ export default function App() {
       </main>
 
       <footer className="pres-footer">
-        <button className="nav-btn" onClick={prev} disabled={slide === 1}>
+        <button className="btn nav-btn" onClick={prev} disabled={slide === 1}>
           ← Previous
         </button>
         <div className="slide-dots">
@@ -89,7 +89,7 @@ export default function App() {
             />
           ))}
         </div>
-        <button className="nav-btn primary" onClick={next} disabled={slide === TOTAL_SLIDES}>
+        <button className="btn nav-btn primary" onClick={next} disabled={slide === TOTAL_SLIDES}>
           Next →
         </button>
       </footer>

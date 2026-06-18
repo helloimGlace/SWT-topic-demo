@@ -47,7 +47,7 @@ ${
         {options.map((opt) => (
           <button
             key={opt.id}
-            className={`option-btn ${selected === opt.id ? 'selected' : ''}`}
+            className={`btn option-btn ${selected === opt.id ? 'selected' : ''}`}
             onClick={() => setSelected(opt.id)}
           >
             {opt.label}
@@ -55,11 +55,11 @@ ${
         ))}
       </div>
       {!showResult ? (
-        <button className="primary-btn" onClick={handleSubmit} disabled={!selected}>
+        <button className="btn primary-btn" onClick={handleSubmit} disabled={!selected}>
           See the Result
         </button>
       ) : (
-        <div className="result-feedback">
+        <div className="alert" role="alert">
           <strong>{selected === 'descriptive' ? 'Great choice!' : 'Not quite!'}</strong>{' '}
           {options.find((o) => o.id === selected).result}
         </div>

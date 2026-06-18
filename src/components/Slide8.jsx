@@ -32,19 +32,19 @@ export function Slide8() {
             {options.map((opt) => (
               <button
                 key={opt.id}
-                className={`option-btn ${selected === opt.id ? 'selected' : ''}`}
+                className={`btn option-btn ${selected === opt.id ? 'selected' : ''}`}
                 onClick={() => setSelected(opt.id)}
               >
                 {opt.label}
               </button>
             ))}
           </div>
-          <button className="primary-btn" onClick={() => setShowAnswer(true)} disabled={!selected}>
+          <button className="btn primary-btn" onClick={() => setShowAnswer(true)} disabled={!selected}>
             Reveal Answer
           </button>
         </>
       ) : (
-        <div className="result-feedback">
+        <div className="alert" role="alert">
           <strong>Exactly.</strong> Because JavaScript doesn't catch missing methods at compile time,
           a hallucinated API like <code>toBeValidDate()</code> only fails at runtime — making execution
           and human code review strictly required to catch AI hallucinations.

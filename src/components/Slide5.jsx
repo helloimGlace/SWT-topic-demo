@@ -36,7 +36,7 @@ export function Slide5() {
           </label>
         ))}
       </div>
-      <div className="insight-box">
+      <div className="alert insight-box" role="alert">
         All three are real edge cases! <code>new Date("2026-02-29")</code> silently wraps to March 1st.
         <code>new Date("31/12/2025")</code> returns <code>Invalid Date</code> (ISO format expected).
         And <code>new Date(null)</code> actually returns a valid epoch date! JavaScript never stops surprising.

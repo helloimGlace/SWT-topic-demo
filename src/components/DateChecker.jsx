@@ -25,13 +25,14 @@ export default function DateChecker() {
       <div className="dc-body">
         <input
           type="text"
+          className="form-control"
           placeholder="YYYY-MM-DD"
           value={input}
           onChange={handleChange}
         />
         <div className="dc-result">
           {result !== null && (
-            <span className={`dc-badge ${result ? 'valid' : 'invalid'}`}>
+            <span className={`badge dc-badge ${result ? 'valid' : 'invalid'}`}>
               {result ? 'Valid Date' : 'Invalid Date'}
             </span>
           )}

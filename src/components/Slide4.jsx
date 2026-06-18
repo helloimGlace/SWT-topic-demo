@@ -34,7 +34,7 @@ export function Slide4() {
         {cards.map((card) => (
           <button
             key={card.id}
-            className={`tool-card ${activeCard === card.id ? 'active' : ''}`}
+            className={`btn tool-card ${activeCard === card.id ? 'active' : ''}`}
             onClick={() => setActiveCard(activeCard === card.id ? null : card.id)}
           >
             <h3>{card.title}</h3>

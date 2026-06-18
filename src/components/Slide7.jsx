@@ -61,13 +61,13 @@ export function Slide7() {
             <div style={codeStyle}>{tc.code}</div>
             <div className="test-actions">
               <button
-                className={`action-btn accept ${status === 'accepted' ? 'active' : ''}`}
+                className={`btn btn-sm action-btn accept ${status === 'accepted' ? 'active' : ''}`}
                 onClick={() => handleAction(tc.id, 'accept')}
               >
                 ✓ Accept
               </button>
               <button
-                className={`action-btn modify ${status === 'modified' ? 'active' : ''}`}
+                className={`btn btn-sm action-btn modify ${status === 'modified' ? 'active' : ''}`}
                 onClick={() => handleAction(tc.id, 'modify')}
               >
                 ✎ Modify
