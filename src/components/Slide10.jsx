@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export function Slide10() {
+export function Slide10({ onComplete }) {
   const [selected, setSelected] = useState(null)
   const [submitted, setSubmitted] = useState(false)
   const options = [
@@ -12,6 +12,7 @@ export function Slide10() {
 
   const handleSubmit = () => {
     setSubmitted(true)
+    if (onComplete && selected === 'b') onComplete()
   }
 
   return (
@@ -25,7 +26,7 @@ export function Slide10() {
         {options.map((opt) => (
           <button
             key={opt.id}
-            className={`btn option-btn ${selected === opt.id ? 'selected' : ''} ${submitted ? (opt.correct ? 'correct' : selected === opt.id ? 'wrong' : '') : ''}`}
+            className={`btn option-btn ${selected === opt.id ? 'selected' : ''} ${submitted && selected === opt.id && !opt.correct ? 'wrong' : ''}`}
             onClick={() => !submitted && setSelected(opt.id)}
             disabled={submitted}
           >
@@ -37,11 +38,17 @@ export function Slide10() {
         <button className="btn primary-btn" onClick={handleSubmit} disabled={!selected}>
           Submit Answer
         </button>
-      ) : (
+      ) : selected === 'b' ? (
         <div className="alert" role="alert">
           <strong>Correct!</strong> Copilot's suggestions are heavily influenced by the code in your active editor tabs
           and the surrounding comments. A descriptive test comment paired with the open component file gives it the
           best signal.
+        </div>
+      ) : (
+        <div className="alert wrong-feedback" role="alert">
+          <strong>Not quite.</strong> The best context for Copilot comes from having the component file open in an
+          adjacent tab and a descriptive test comment. A blank workspace gives Copilot no signal, chat history is
+          less influential than open files, and extensions don't affect inline suggestions.
         </div>
       )}
     </div>
