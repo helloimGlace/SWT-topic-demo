@@ -2,7 +2,6 @@ import { useState } from 'react';
 import SlideHeader from '../components/SlideHeader';
 import KnowledgeDrop from '../components/KnowledgeDrop';
 import NavigationControls from '../components/NavigationControls';
-import Modal from '../components/Modal';
 
 const INPUTS = [
   {
@@ -34,7 +33,6 @@ const INPUTS = [
 export default function Slide1({ onComplete, isComplete, onNext, onBack, canGoBack }) {
   const [log, setLog] = useState([]);
   const [firedIds, setFiredIds] = useState(new Set());
-  const [showModal, setShowModal] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [shakeKey, setShakeKey] = useState(0);
 
@@ -58,15 +56,12 @@ export default function Slide1({ onComplete, isComplete, onNext, onBack, canGoBa
       setShakeKey(k => k + 1);
     }
 
-    // After all three fired, show modal
+    // After all three fired, unlock slide
     if (newFired.size === INPUTS.length) {
-      setTimeout(() => setShowModal(true), 600);
+      setTimeout(() => {
+        onComplete();
+      }, 600);
     }
-  };
-
-  const handleModalClose = () => {
-    setShowModal(false);
-    onComplete();
   };
 
   return (
@@ -172,30 +167,39 @@ export default function Slide1({ onComplete, isComplete, onNext, onBack, canGoBa
             </div>
 
             {allFired && (
-              <div className="question-card" id="core-question">
-                Why did "2026-02-29" return <strong>true</strong>?
-              </div>
+              <>
+                <div className="question-card" id="core-question" style={{ marginBottom: '12px' }}>
+                  Why did "2026-02-29" return <strong>true</strong>?
+                </div>
+                <div 
+                  className="slide-down"
+                  style={{
+                    background: 'linear-gradient(135deg, #ede9fe, #fdf2f8)',
+                    borderLeft: '4px solid var(--clr-indigo)',
+                    borderRadius: 'var(--radius-md)',
+                    padding: '16px',
+                    fontSize: '.85rem',
+                    lineHeight: '1.6',
+                    color: 'var(--clr-text)',
+                    boxShadow: 'var(--shadow-sm)'
+                  }}
+                  id="leap-year-explanation"
+                >
+                  <div style={{ fontWeight: 800, color: 'var(--clr-indigo-dk)', marginBottom: '8px', fontSize: '.9rem' }}>
+                    JavaScript's Silent Rollover
+                  </div>
+                  <div>
+                    JavaScript silently converted February 29th into <strong>March 1st</strong>!
+                    This rollover behavior passes basic validation completely undetected — the
+                    function returns <strong>true</strong> for a date that does not exist. This
+                    is exactly why targeted unit tests checking boundary conditions are mandatory.
+                  </div>
+                </div>
+              </>
             )}
           </div>
         </div>
       </div>
-
-      {showModal && (
-        <Modal
-          id="leap-year-modal"
-          title="JavaScript's Silent Rollover"
-          body={
-            <span>
-              JavaScript silently converted February 29th into <strong>March 1st</strong>.
-              This rollover behavior means the date passes basic validation completely
-              undetected — the function returns <strong>true</strong> for a date that does
-              not exist. This is exactly why targeted unit tests that check specific edge
-              cases, like non-leap-year February 29th entries, are mandatory.
-            </span>
-          }
-          onClose={handleModalClose}
-        />
-      )}
 
       <NavigationControls
         onBack={onBack}
