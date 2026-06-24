@@ -67,6 +67,11 @@ export default function App() {
     setCompleted(prev => new Set([...prev, current]));
   };
 
+  const handleSkip = () => {
+    setCompleted(prev => new Set([...prev, current]));
+    goNext();
+  };
+
   const canAdvance = isIntro || isOutro || completed.has(current);
 
   const SlideComponent = SLIDES[current].component;
@@ -80,6 +85,7 @@ export default function App() {
         isComplete={completed.has(current)}
         onNext={goNext}
         onBack={goBack}
+        onSkip={handleSkip}
         canGoBack={current > 0 && !isIntro}
         canGoNext={canAdvance}
         isFirst={current === 1}

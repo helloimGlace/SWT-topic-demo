@@ -2,6 +2,7 @@ import { useState } from 'react';
 import SlideHeader from '../components/SlideHeader';
 import KnowledgeDrop from '../components/KnowledgeDrop';
 import NavigationControls from '../components/NavigationControls';
+import Modal from '../components/Modal';
 
 const CORRECT_ORDER = ['cursor', 'tabs', 'meta', 'tree'];
 
@@ -35,17 +36,17 @@ const PRIORITY_LABELS = [
   'Lowest Priority',
 ];
 
-export default function Slide2({ onComplete, isComplete, onNext, onBack, canGoBack }) {
+export default function Slide2({ onComplete, isComplete, onNext, onBack, canGoBack, onSkip }) {
   const [pool, setPool] = useState(['tabs', 'tree', 'cursor', 'meta']);
   const [dropZone, setDropZone] = useState([null, null, null, null]);
   const [wrongIds, setWrongIds] = useState(new Set());
   const [checked, setChecked] = useState(false);
   const [submitShake, setSubmitShake] = useState(false);
+  const [showExplanation, setShowExplanation] = useState(false);
 
-  // Drag and drop states
   const [draggingId, setDraggingId] = useState(null);
-  const [dragSource, setDragSource] = useState(null); // 'pool' or 'slot-X'
-  const [dragOverTarget, setDragOverTarget] = useState(null); // 'pool' or 'slot-X'
+  const [dragSource, setDragSource] = useState(null);
+  const [dragOverTarget, setDragOverTarget] = useState(null);
 
   const handleDragStart = (e, itemId, source) => {
     setDraggingId(itemId);
@@ -77,32 +78,24 @@ export default function Slide2({ onComplete, isComplete, onNext, onBack, canGoBa
 
     if (!itemId) return;
 
-    // Reset feedback
     setChecked(false);
     setWrongIds(new Set());
 
-    // Case 1: Drop into a slot
     if (targetId.startsWith('slot-')) {
       const slotIndex = parseInt(targetId.split('-')[1]);
       const nextZone = [...dropZone];
       const nextPool = [...pool];
 
       if (source === 'pool') {
-        // Remove from pool
         const idx = nextPool.indexOf(itemId);
         if (idx > -1) nextPool.splice(idx, 1);
 
-        // If target slot is occupied, put existing back to pool
         const existing = nextZone[slotIndex];
-        if (existing) {
-          nextPool.push(existing);
-        }
+        if (existing) nextPool.push(existing);
         nextZone[slotIndex] = itemId;
       } else if (source.startsWith('slot-')) {
         const srcSlotIndex = parseInt(source.split('-')[1]);
         const existing = nextZone[slotIndex];
-
-        // Swap the slots
         nextZone[slotIndex] = itemId;
         nextZone[srcSlotIndex] = existing;
       }
@@ -111,7 +104,6 @@ export default function Slide2({ onComplete, isComplete, onNext, onBack, canGoBa
       setPool(nextPool);
     }
 
-    // Case 2: Drop into pool
     if (targetId === 'pool') {
       const nextZone = [...dropZone];
       const nextPool = [...pool];
@@ -119,16 +111,13 @@ export default function Slide2({ onComplete, isComplete, onNext, onBack, canGoBa
       if (source.startsWith('slot-')) {
         const srcSlotIndex = parseInt(source.split('-')[1]);
         nextZone[srcSlotIndex] = null;
-        if (!nextPool.includes(itemId)) {
-          nextPool.push(itemId);
-        }
+        if (!nextPool.includes(itemId)) nextPool.push(itemId);
       }
 
       setDropZone(nextZone);
       setPool(nextPool);
     }
 
-    // Reset drag states
     setDraggingId(null);
     setDragSource(null);
     setDragOverTarget(null);
@@ -152,7 +141,6 @@ export default function Slide2({ onComplete, isComplete, onNext, onBack, canGoBa
     } else {
       setWrongIds(wrong);
       setTimeout(() => {
-        // Reset wrong items to pool
         const wrongItems = dropZone.filter(id => wrong.has(id));
         setPool(prev => [...prev, ...wrongItems]);
         setDropZone(prev => prev.map(id => (wrong.has(id) ? null : id)));
@@ -172,7 +160,6 @@ export default function Slide2({ onComplete, isComplete, onNext, onBack, canGoBa
         title="The LLM Context Window"
         subtitle="Copilot builds its suggestions from a strict priority hierarchy of context sources."
       />
-
       <KnowledgeDrop title="Knowledge Drop" color="var(--clr-orange)">
         <p>
           GitHub Copilot operates via <strong>In-Context Learning</strong>. When you open
@@ -183,8 +170,7 @@ export default function Slide2({ onComplete, isComplete, onNext, onBack, canGoBa
           and finally the broader repository file tree.
         </p>
       </KnowledgeDrop>
-
-      <p style={{ fontSize: '.9rem', fontWeight: 700, color: 'var(--clr-text-muted)', marginBottom: '20px', textAlign: 'center' }}>
+      <p style={{ fontSize: '.85rem', fontWeight: 700, color: 'var(--clr-text-muted)', marginBottom: '24px' }}>
         Drag and sort the context blocks into the correct priority sequence Copilot uses.
       </p>
 
@@ -265,7 +251,7 @@ export default function Slide2({ onComplete, isComplete, onNext, onBack, canGoBa
       </div>
 
       {!isComplete && (
-        <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '24px' }}>
           <button
             id="check-order-btn"
             className={`btn btn-orange ${submitShake ? 'shake' : ''}`}
@@ -278,17 +264,59 @@ export default function Slide2({ onComplete, isComplete, onNext, onBack, canGoBa
       )}
 
       {isComplete && (
-        <div className="question-card" style={{ marginTop: '20px', background: 'linear-gradient(135deg, #dcfce7, #d1fae5)', borderColor: 'var(--clr-green)', color: '#15803d' }}>
-          Correct! Cursor proximity is always Copilot's highest-fidelity signal.
+        <div style={{ marginTop: '24px', display: 'flex', flexDirection: 'column', gap: '12px', width: '100%' }}>
+          <div className="question-card" style={{ background: 'linear-gradient(135deg, #dcfce7, #d1fae5)', borderColor: 'var(--clr-green)', color: '#15803d', margin: 0 }}>
+            Correct! Cursor proximity is always Copilot's highest-fidelity signal.
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <button
+              className="btn btn-secondary"
+              onClick={() => setShowExplanation(true)}
+              id="why-context-btn"
+              style={{ padding: '8px 20px', fontSize: '.85rem' }}
+            >
+              Why is context prioritized this way? 🤔
+            </button>
+          </div>
         </div>
       )}
 
       <NavigationControls
         onBack={onBack}
         onNext={onNext}
+        onSkip={!isComplete ? onSkip : null}
         canGoBack={canGoBack}
         canGoNext={isComplete}
       />
+
+      {showExplanation && (
+        <Modal
+          icon="🧠"
+          title="Understanding LLM Context Prioritization"
+          onClose={() => setShowExplanation(false)}
+          body={
+            <div style={{ textAlign: 'left', display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '.9rem', lineHeight: 1.6 }}>
+              <p>
+                GitHub Copilot constructs prompts to send to its underlying LLM using a strict context prioritization system. This is done to fit within the LLM's **context window** constraints while maximizing the accuracy of its code suggestions:
+              </p>
+              <ol style={{ paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <li>
+                  <strong>Cursor Proximity (Highest Priority):</strong> The lines immediately surrounding your active cursor provide the most immediate signal of your current task. Because of <em>Recency Bias</em>, models respond best when the immediate objective is at the very end of the prompt.
+                </li>
+                <li>
+                  <strong>Neighboring Tabs:</strong> Open files in editor tabs give Copilot crucial structure information, including custom helper utilities, type definitions, and neighboring tests.
+                </li>
+                <li>
+                  <strong>Project Metadata:</strong> Manifests (like <code>package.json</code>) inform Copilot which dependencies and testing frameworks (e.g., Vitest vs. Jest) are available, so it suggests syntax compatible with your system.
+                </li>
+                <li>
+                  <strong>Repository File Tree (Lowest Priority):</strong> The rest of your project structure is only scanned as a fallback. Broad repository searches are computationally expensive and risk cluttering the context window with unrelated files.
+                </li>
+              </ol>
+            </div>
+          }
+        />
+      )}
     </div>
   );
 }

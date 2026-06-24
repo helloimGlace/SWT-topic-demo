@@ -1,8 +1,8 @@
 export default function SlideHeader({ badge, badgeColor = 'badge-indigo', title, subtitle }) {
   return (
-    <div className="text-center" style={{ marginBottom: '24px' }}>
+    <div style={{ marginBottom: '8px' }}>
       {badge && (
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px' }}>
+        <div style={{ display: 'flex', marginBottom: '8px' }}>
           <span className={`module-badge ${badgeColor}`}>{badge}</span>
         </div>
       )}

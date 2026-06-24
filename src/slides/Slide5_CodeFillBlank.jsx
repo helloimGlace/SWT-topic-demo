@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import SlideHeader from '../components/SlideHeader';
 import NavigationControls from '../components/NavigationControls';
+import Modal from '../components/Modal';
 
 const TOKENS = [
   { id: 't1', text: '// Test that it displays Invalid Date when the user types 2026-02-29', correct: true },
@@ -11,7 +12,6 @@ const TOKENS = [
   { id: 't6', text: "'Success'", correct: false },
 ];
 
-// Correct: slot1=t1, slot2=t3, slot3=t5
 const CORRECT = { slot1: 't1', slot2: 't3', slot3: 't5' };
 
 const TYPEWRITER_TEXT = `    render(<DateChecker />);
@@ -19,7 +19,7 @@ const TYPEWRITER_TEXT = `    render(<DateChecker />);
     fireEvent.change(input, { target: { value: '2026-02-29' } });
     expect(screen.getByText('Invalid Date')).toBeInTheDocument();`;
 
-export default function Slide5({ onComplete, isComplete, onNext, onBack, canGoBack }) {
+export default function Slide5({ onComplete, isComplete, onNext, onBack, canGoBack, onSkip }) {
   const [slots, setSlots] = useState({ slot1: null, slot2: null, slot3: null });
   const [usedTokens, setUsedTokens] = useState(new Set());
   const [draggingId, setDraggingId] = useState(null);
@@ -28,6 +28,7 @@ export default function Slide5({ onComplete, isComplete, onNext, onBack, canGoBa
   const [typeText, setTypeText] = useState('');
   const [typing, setTyping] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [showExplanation, setShowExplanation] = useState(false);
   const typeRef = useRef(null);
 
   const getTokenById = (id) => TOKENS.find(t => t.id === id);
@@ -73,7 +74,6 @@ export default function Slide5({ onComplete, isComplete, onNext, onBack, canGoBa
 
     setSlots(prev => {
       const next = { ...prev };
-      // Return old token to pool if slot was occupied
       const oldToken = next[slotId];
       if (oldToken) {
         setUsedTokens(p => { const s = new Set(p); s.delete(oldToken); return s; });
@@ -88,7 +88,6 @@ export default function Slide5({ onComplete, isComplete, onNext, onBack, canGoBa
   };
 
   const handleSlotClick = (slotId) => {
-    // Click to remove token from slot
     const tokenId = slots[slotId];
     if (!tokenId) return;
     setSlots(prev => ({ ...prev, [slotId]: null }));
@@ -160,6 +159,14 @@ export default function Slide5({ onComplete, isComplete, onNext, onBack, canGoBa
         title="Constructing the Prompt"
         subtitle="Drag the correct phrase tokens into the code slots to build a targeted test prompt."
       />
+      <div style={{ background: 'linear-gradient(135deg, #f7fee7, #ecfccb)', border: '2px solid #bef264', borderRadius: 'var(--radius-lg)', padding: '16px 20px', marginBottom: '24px', width: '100%' }}>
+        <p style={{ fontSize: '.85rem', fontWeight: 700, color: '#4d7c0f', marginBottom: '8px' }}>How to play</p>
+        <ul style={{ fontSize: '.82rem', color: '#4d7c0f', paddingLeft: '18px', lineHeight: 2 }}>
+          <li>Drag a token from the tray below into an empty slot in the code block</li>
+          <li>Click a filled slot to return its token to the tray</li>
+          <li>Fill all three slots, then click <strong>Validate Prompt</strong></li>
+        </ul>
+      </div>
 
       {/* VS Code Window */}
       <div className="vscode-window">
@@ -216,10 +223,10 @@ export default function Slide5({ onComplete, isComplete, onNext, onBack, canGoBa
         </div>
       </div>
 
-      {/* Token Tray */}
+      {/* Token Tray below code block */}
       {!isComplete && (
-        <div className="token-tray" id="token-tray">
-          <div className="token-tray-label">Phrase Token Tray — drag a token into a slot</div>
+        <div className="token-tray" id="token-tray" style={{ marginBottom: '24px' }}>
+          <div className="token-tray-label">Phrase Token Tray — drag into a slot</div>
           {TOKENS.map(token => (
             <div
               key={token.id}
@@ -236,7 +243,7 @@ export default function Slide5({ onComplete, isComplete, onNext, onBack, canGoBa
       )}
 
       {!isComplete && (
-        <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
           <button
             id="submit-prompt-btn"
             className="btn btn-primary"
@@ -249,17 +256,56 @@ export default function Slide5({ onComplete, isComplete, onNext, onBack, canGoBa
       )}
 
       {isComplete && (
-        <div className="question-card" style={{ marginTop: '16px', background: 'linear-gradient(135deg, #f7fee7, #ecfccb)', borderColor: 'var(--clr-lime)', color: '#4d7c0f' }}>
-          Prompt validated. Descriptive JSDoc intent anchors Copilot to your exact edge case.
+        <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', gap: '12px', width: '100%' }}>
+          <div className="question-card" style={{ background: 'linear-gradient(135deg, #f7fee7, #ecfccb)', borderColor: 'var(--clr-lime)', color: '#4d7c0f', margin: 0 }}>
+            Prompt validated. Descriptive JSDoc intent anchors Copilot to your exact edge case.
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+            <button
+              className="btn btn-secondary"
+              onClick={() => setShowExplanation(true)}
+              id="why-prompt-btn"
+              style={{ padding: '8px 20px', fontSize: '.85rem' }}
+            >
+              Why do JSDoc comments guide Copilot? 🤔
+            </button>
+          </div>
         </div>
       )}
 
       <NavigationControls
         onBack={onBack}
         onNext={onNext}
+        onSkip={!isComplete ? onSkip : null}
         canGoBack={canGoBack}
         canGoNext={isComplete}
       />
+
+      {showExplanation && (
+        <Modal
+          icon="✍️"
+          title="Intent-Driven Prompting with JSDoc"
+          onClose={() => setShowExplanation(false)}
+          body={
+            <div style={{ textAlign: 'left', display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '.9rem', lineHeight: 1.6 }}>
+              <p>
+                Because JavaScript lacks static types, Copilot has no built-in way to know your exact logical intent just by reading the code. Providing clear instructions via JSDoc comments is the most effective way to anchor the LLM:
+              </p>
+              <ul style={{ paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <li>
+                  <strong>Establishing Context Boundaries:</strong> When you write a comment like <code>// Test that it displays Invalid Date when the user types 2026-02-29</code>, Copilot reads this comment in its context builder. The description limits the search scope of the LLM to date validation logic, inputs, and expected outcomes.
+                </li>
+                <li>
+                  <strong>Guiding Token Probabilities:</strong> Large Language Models generate text by selecting the next word (token) with the highest statistical probability. Explicit comments dramatically raise the probability that the model will select testing functions like <code>fireEvent.change</code>, parameters like <code>'2026-02-29'</code>, and assertions matching <code>'Invalid Date'</code>.
+                </li>
+                <li>
+                  <strong>Preventing Happy-Path Bias:</strong> Left to its own devices, Copilot defaults to standard "happy-path" scenarios (e.g. testing simple valid dates like "2026-02-25"). Forcing the model to trace explicit edge-case assertions in comments guarantees it will test critical boundary bugs.
+                </li>
+              </ul>
+            </div>
+          }
+        />
+      )}
     </div>
   );
 }

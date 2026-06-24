@@ -15,8 +15,7 @@ export default function Slide4({ onComplete, isComplete, onNext, onBack, canGoBa
         title="Prompt Engineering via JSDoc Comments"
         subtitle="The quality of Copilot's output is directly proportional to the quality of your intent signal."
       />
-
-      <KnowledgeDrop title="Knowledge Drop" color="var(--clr-lime)" >
+      <KnowledgeDrop title="Knowledge Drop" color="var(--clr-lime)">
         <p>
           Because JavaScript is dynamically typed, Copilot does not inherently know whether
           a parameter is supposed to be a string, a clean object, or a raw timestamp. To get
@@ -32,7 +31,7 @@ export default function Slide4({ onComplete, isComplete, onNext, onBack, canGoBa
         </p>
       </KnowledgeDrop>
 
-      <div className="card" style={{ marginBottom: '20px' }}>
+      <div className="card">
         <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--clr-text)', marginBottom: '16px' }}>
           Weak vs. Strong Prompt — Side by Side
         </h3>
@@ -66,7 +65,7 @@ export default function Slide4({ onComplete, isComplete, onNext, onBack, canGoBa
         </div>
       </div>
 
-      <div style={{ background: 'linear-gradient(135deg, #f7fee7, #ecfccb)', border: '2px solid #bef264', borderRadius: 'var(--radius-lg)', padding: '18px 22px', width: '100%', marginBottom: '20px' }}>
+      <div style={{ background: 'linear-gradient(135deg, #f7fee7, #ecfccb)', border: '2px solid #bef264', borderRadius: 'var(--radius-lg)', padding: '18px 22px', marginTop: '20px', width: '100%' }}>
         <p style={{ fontSize: '.9rem', fontWeight: 700, color: '#4d7c0f' }}>
           On the next slide, you will construct the exact prompt that forces Copilot to target this bug. Use what you just learned to choose the right fragments.
         </p>
